@@ -39,7 +39,7 @@
 
           try {
 //    전체 글 조회 쿼리문
-            String sql = "SELECT seq, title, user_id, create_date, cnt FROM board WHERE deleted_yn = 'N' ";
+            String sql = "SELECT seq, title, user_id, create_date, cnt FROM board WHERE deleted_yn = 'N' order by seq DESC ";
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
@@ -52,7 +52,9 @@
         %>
           <tr>
             <td><%=seq%>></td>
-            <td><%=title%></td>
+<%--            게시물 제목 누르면 그 게시물 내용이 있는 페이지로 이동되도록, ? 는 변수 들어가는 위치--%>
+<%--              여기서 seq = 내가 선택한 글 번호 --%>
+            <td><a href="boardDetail2.jsp?seq=<%=seq%>"><%=title%></a></td>
             <td><%=userId%></td>
             <td><%=createDt%></td>
             <td><%=cnt%></td>
