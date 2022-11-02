@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Title</title>
+
+    <!--    제이쿼리 추가 : https://developers.google.com/speed/libraries#jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#btn-ok').on('click', function () {
+                const number3 = $('#num3').val();
+                const number4 = $('#num4').val();
+
+                //    ajax문법 시작
+                $.ajax({
+                    // url: ajax를 통해서 접속하고자 하는 서버 주소를 입력
+                    url: 'cal_process.jsp',
+                    // type: 통신 방식을 설정
+                    type: 'post',
+                    // form으로 실행했을때 들어가는 name: data, 매개변수로 들어갈 data 없으면 생략가능
+                    data: {num1: number3, num2: number4},
+                    // success: 통신이 정상적으로 이루어질 경우 실행
+                    success: function() {
+                        alert("통신 성공");
+                    },
+                    // error: 통신 시 오류가 발생할 경우 실행
+                    error: function() {
+                        alert("ajax 통신 시 오류가 발생했습니다.");
+                    }
+                });
+            });
+
+
+            $('#btn-ok2').on('click', function () {
+                const datas = {num1: $('#num5').val(), num2: $('#num6').val()};
+
+                $.ajax({
+                   url: "cal_process2.jsp",
+                   type: "post",
+                   data: datas,
+                   // dataType: 자바스크립트로 넘기는 데이터의 종류 선택가능(생략하면 자동으로 됨, 데이터타입오류나면 직접선언해주면됨)
+                   success: function (data) {
+                        obj = JSON.parse(data);
+
+                        if (obj.result == "success") {
+                            alert("통신성공!!\n전송된 데이터 : " + obj.value);
+                        }
+                        else {
+                            alert("전송된 데이터가 없습니다.");
+                        }
+                   },
+                   error: function () {
+                       alert('통신 중 오류가 발생했습니다.');
+                   }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="cal_process.jsp" method="post">
+                <label for="num1" class="form-label">숫자 1 : </label>
+                <input type="text" class="form-control" id="num1" name="num1" placeholder="숫자를 입력해주세요">
+                <label for="num2" class="form-label">숫자 2 : </label>
+                <input type="text" class="form-control" id="num2" name="num2" placeholder="숫자를 입력해주세요">
+                <div class="my-3">
+                    <button type="submit" class="btn btn-success">form으로 계산</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br><br><br>
+    <div class="row">
+        <div class="col-sm-6">
+            <label for="num3" class="form-label">숫자 1 : </label>
+            <input type="text" class="form-control" id="num3" name="num1" placeholder="숫자를 입력해주세요">
+            <label for="num4" class="form-label">숫자 2 : </label>
+            <input type="text" class="form-control" id="num4" name="num2" placeholder="숫자를 입력해주세요">
+            <div class="my-3">
+                <button type="button" class="btn btn-primary" id="btn-ok">ajax로 계산</button>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+<!--    JSON 방식 -->
+    <div class="row">
+        <div class="col-sm-6">
+            <label for="num5" class="form-label">숫자 1 : </label>
+            <input type="text" class="form-control" id="num5" placeholder="숫자를 입력해주세요">
+            <label for="num6" class="form-label">숫자 2 : </label>
+            <input type="text" class="form-control" id="num6" placeholder="숫자를 입력해주세요">
+            <div class="my-3">
+                <button type="button" class="btn btn-info" id="btn-ok2">ajax로 계산 후 응답</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+<!--
+Json이란 : javascript object notation의 줄임말로 자바스크림트 객체 문법을 사용하는 문자 기반의 전송 포맷
+
+Javascript -
+parse() : JSON 타입 형태의 문자열을 JSON 객체로 변환
+"{key1: 'asdf'}"  -> {key: 'asdf'}
+String 타입을 진짜 Object타입으로 변환
+
+stringify() : JSON 객체를 JSON 타입의 문자열로 변환
+{key1: 'asdf'}  -> "{key: 'asdf'}"
+
+
+Java -
+Gson : java에서 json 객체를 사용하기 위해 google에서 개발한 java 라이브러리
+
+라이브러리 추가(gradle) : implementation 'com.google.code.gson:gson:2.10' 추가
+
+사용법 -
+Gson 객체 생성 :
+Gson gson = new Gson();
+
+Json 객체 생성 :
+JsonObject jsonObject = new JsonObject();
+
+Json 객체에 JSon 데이터 추가하기(key, value) :
+jsonObject.addProperty("이름", "데이터");
+
+Json 객체를 Json 문자열로 변환 :
+String str = gson.toJson(jsonObject);
+
+Java Object를 Json 으로 변환 :
+class Student {
+    int id;
+    String name;
+
+    public Student(id, name) {
+    this.id = id;
+    this.name = name
+    }
+}
+Student stu = new Student(1001, "홍길동");
+Gson gson = new Gson();
+String str = gson.toJson(stu);
+
+Json 을 Java Object로 변환 :
+String str = "{\"id\": 1001, \"name\": \"홍길동\"}";
+Gson gson = new Gson();
+Student stu = gson.fromJson(str, Student.Class);
+
+HashMap을 Json으로 변환 :
+Map<String, String> map = new HashMap<>();
+map.put("id", "1001");
+map.put("name", "홍길동");
+
+Gson gson = new Gson();
+String str = gson.toJson(map);
+
+Json을 HashMap으로 변환 :
+String str = "{\"id\": \"1001\", \"name\": \"홍길동\"}";
+Gson gson = new Gson();
+
+Map<String, String> map = gson.fromJson(str, Map.class);
+
+-->
