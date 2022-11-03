@@ -7,11 +7,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Title</title>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <body>
 <%
@@ -21,8 +22,7 @@
   String jsonStr = gson.toJson(stu);
 
   out.print(jsonStr);
-  %>
-
+%>
   <br><br><br>
 <%
   JsonObject jobj = new JsonObject();
@@ -31,12 +31,12 @@
 
   out.print(jobj);
 %>
-<br><br><br>
+<br><hr><br>
 <%
     jsonStr = "{\"id\": 1003, \"name\": \"유재석\"}";
 
     Student stu1 = gson.fromJson(jsonStr, Student.class);
-    out.print(stu1); // 결과: com.bitc.jspchap13.Student@368e3ee4
+    // out.print(stu1); // 결과: com.bitc.jspchap13.Student@368e3ee4
 
     out.print(stu1.getId());
     out.print(stu1.getName());

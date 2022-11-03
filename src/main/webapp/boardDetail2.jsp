@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 2022-11-02
-  Time: 오전 9:20
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
 <!DOCTYPE html>
@@ -80,7 +73,7 @@
       userId = rs.getString("user_id");
       createDate = rs.getString("create_date");
       updateDate = rs.getString("update_date");
-      int cnt = rs.getInt("cnt");
+      boardCnt = rs.getInt("cnt");
 
 //    out.print(title + "<br>");
 //    out.print(contents + "<br>");
